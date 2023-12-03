@@ -11,23 +11,26 @@ public class IntroToEncapsulation {
 		 */
 
 		// 1. Create a Vehicle object.
-
+		Vehicle myVehicle = new Vehicle();
 		// 2. Use the vehicle's setters to change fuelTankCapacity and mpg.
-
+		myVehicle.setFuelTankCapacity(20);
+		myVehicle.setMpg(25);
 		// 3. Call setFuelInTank with an amount greater than the capacity.
-
+		myVehicle.setFuelInTank(25);
 		// Note: The reason setFuelInTank doesn't show up is because it's private.
 
 		// 4. Modify setFuelInTank's access modifier so you can use it.
 		// Hint: Access modifiers are described at the top of the Vehicle class.
 
 		// 5. Create a setter for the vehicle's color then set its color using it.
-
+		myVehicle.setColor("Blue"); 
 		// 6. Create local variables for fuelTankCapacity, fuelInTank and mpg.
-
+		int fuelTankCapacity, fuelInTank, mpg;
 		// 7. Use the vehicle's getters to initialize all of them.
 		// Note: You may need to fix some access modifiers.
-
+		fuelTankCapacity = myVehicle.getFuelTankCapacity();
+		fuelInTank = myVehicle.getFuelInTank();
+		mpg = myVehicle.getMpg();
 		// 8. Create a getter for color and do the same thing you did for steps 6 & 7.
 
 		// 9. Print out all the local variables.
@@ -68,6 +71,11 @@ class Vehicle {
 
 	// More complex setters can be created if you want to limit changes to members.
 
+	public void setColor(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void setFuelTankCapacity(int fuelTankCapacity) {
 		if (fuelTankCapacity >= 1) {
 			this.fuelTankCapacity = fuelTankCapacity;
@@ -77,7 +85,7 @@ class Vehicle {
 		}
 	}
 
-	private void setFuelInTank(int fuelInTank) {
+	public void setFuelInTank(int fuelInTank) {
 		if (fuelInTank >= 0 && fuelInTank <= fuelTankCapacity) {
 			this.fuelInTank = fuelInTank;
 		} else {
