@@ -27,12 +27,19 @@ public class IntroToEnums {
 
 		// 3. Create an array of StatesOfMatter with all the values using .values().
 		// Hint: Use "StatesOfMatter." as if it were a static method.
-
+		StatesOfMatter[] states = StatesOfMatter.values();
 		// 4. Ask the user for a state of matter.
-
+		String inputState = JOptionPane.showInputDialog("What is a state of matter?");
+		
 		// 5. Iterate through the array and find what the user entered.
 		// Hint: .name() or .toString
-
+		for (StatesOfMatter state : states) {
+            if (state.name().equalsIgnoreCase(inputState)) {
+                System.out.println("Ordinal: " + state.ordinal());
+                System.out.println("Temperature in Celsius: " + state.getCelsiusTemp());
+                System.out.println("Temperature in Fahrenheit: " + state.convertToFahrenheit());
+            }
+        }
 		// 6. Print outs its ordinal(order in the enum list)
 		// Hint: .ordinal()
 
@@ -58,12 +65,29 @@ public class IntroToEnums {
 		// Hint: Return the conversion: F = (C * 9/5) + 32
 
 		// 10. Create a variable of the StatesOfMatter type and initialize it randomly.
+		Random random = new Random();
+        StatesOfMatter randomState = states[random.nextInt(states.length)];
 
-		// 11. Print outs both of its temperatures.
-		
+        System.out.println("Random State: " + randomState.name());
+        System.out.println("Temperature in Celsius: " + randomState.getCelsiusTemp());
+        System.out.println("Temperature in Fahrenheit: " + randomState.convertToFahrenheit());
+
 		// 11. Create a switch statement that switches on the variable you created.
 		// Note: When creating the cases, you can omit the "StatesOfMatter."
-
+        switch (randomState) {
+        case SOLID:
+            System.out.println("Favorite food for Solid: Ice Cream");
+            break;
+        case LIQUID:
+            System.out.println("Favorite drink for Liquid: Lemonade");
+            break;
+        case GAS:
+            System.out.println("Favorite food for Gas: Popcorn");
+            break;
+        default:
+            System.out.println("Unknown state");
+            break;
+    }
 		// 12. For each case, print your favorite food or drink that uses that state.
 		// e.g. Gas/Boiling for Pasta, Solid/Ice for Popsicles, Liquid for Soda
 
