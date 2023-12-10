@@ -31,8 +31,35 @@ public class Snake {
 		return head.getLocation();
 	}
 
-	public void update() {
 
+	public void update() {
+		    int nextX = head.x;
+		    int nextY = head.y;
+
+		    switch (currentDirection) {
+		        case UP:
+		            nextY--;
+		            break;
+		        case DOWN:
+		            nextY++;
+		            break;
+		        case LEFT:
+		            nextX--;
+		            break;
+		        case RIGHT:
+		            nextX++;
+		            break;
+		    }
+
+		    for (int i = snake.size() - 1; i > 0; i--) {
+		        SnakeSegment current = snake.get(i);
+		        SnakeSegment previous = snake.get(i - 1);
+		        current.setLocation(previous.getLocation());
+		    }
+
+		    head.setLocation(new Location(nextX, nextY));
+		    canMove = true;
+		}
 		/*
 		 * Create variables for the next X and Y location of the snake's head.
 		 * Initialize them to the current X and Y locations.
@@ -59,34 +86,30 @@ public class Snake {
 
 		// Set the canMove member variable to true.
 
-	}
+	
 
 	public void setDirection(Direction direction) {
-
-		/*
-		 * If the passed in direction is not the opposite direction of currentDirection
-		 * and canMove is true, set currentDirection to the passed in direction and
-		 * canMove to false
-		 * 
-		 * Hint: Use the isNotOppositeDirection method.
-		 */
-
+	    if (isNotOppositeDirection(direction) && canMove) {
+	        currentDirection = direction;
+	        canMove = false;
+	    }
 	}
 
 	private boolean isNotOppositeDirection(Direction direction) {
-
-		/*
-		 * Complete the method so it returns true if the passed in direction is not the
-		 * opposite direction of currentDirection.
-		 * 
-		 * For example, if currentDirection is UP and the passed in direction is DOWN
-		 * this method should return false.
-		 */
-
-		return true;
+	    switch (currentDirection) {
+	        case UP:
+	            return direction != Direction.DOWN;
+	        case DOWN:
+	            return direction != Direction.UP;
+	        case LEFT:
+	            return direction != Direction.RIGHT;
+	        case RIGHT:
+	            return direction != Direction.LEFT;
+	        default:
+	            return true; // Default to true for safety, in case of new directions in the future.
+	    }
 	}
 
-	public void resetLocation() {
 
 		// Clear the snake.
 
@@ -103,18 +126,16 @@ public class Snake {
 
 		// Add the head to the snake.
 
+	
+
+	public void resetLocation() {
+	    snake.clear();
+	    
+	    Location newLocation = new Location(SnakeGame.WIDTH / 2, SnakeGame.HEIGHT / 2);
+	    head = new SnakeSegment(newLocation, BODY_SIZE);
+	    snake.add(head);
 	}
-
-	public boolean isOutOfBounds() {
-
-		/*
-		 * Complete the method so it returns true if the head of the snake is outside of
-		 * the window and false otherwise.
-		 */
-
-		return false;
-	}
-
+	
 	public boolean isHeadCollidingWithBody() {
 
 		/*
