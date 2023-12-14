@@ -116,7 +116,17 @@ public class SnakeGame implements ActionListener, KeyListener {
 		 * 
 		 * Hint: KeyEvent.VK_UP.
 		 */
-
+		switch (e.getKeyCode()) {
+        case KeyEvent.VK_UP:
+            snake.setDirection(Direction.UP);
+        case KeyEvent.VK_DOWN:
+        	snake.setDirection(Direction.DOWN);
+        case KeyEvent.VK_RIGHT:
+        	snake.setDirection(Direction.RIGHT);
+        case KeyEvent.VK_LEFT:
+        	snake.setDirection(Direction.LEFT);
+          
+		}
 	}
 
 	private void randomizeFoodLocation() {
@@ -133,7 +143,19 @@ public class SnakeGame implements ActionListener, KeyListener {
 		 * Hint: Use the snake's isLocationOnSnake method to make sure you don't put the
 		 * food on top of the snake.
 		 */
+		Random random = new Random();
 
+	    while (true) {
+	        int x = random.nextInt(WIDTH);
+	        int y = random.nextInt(HEIGHT);
+	        Location newFoodLocation = new Location(x, y);
+
+	        if (!snake.isLocationOnSnake(newFoodLocation)) {
+	            foodLocation = newFoodLocation;
+	            break; 
+	        }
+	    }
+	    
 	}
 
 	private void gameOver() {
@@ -150,6 +172,19 @@ public class SnakeGame implements ActionListener, KeyListener {
 		 * this class's randomizeFoodLocation method then restart the timer. Otherwise,
 		 * exit the game.
 		 */
+		timer.stop();
+	    String message = "Game Over!\nYour score: " + (snake.BODY_SIZE - 1);
+	    JOptionPane.showMessageDialog(null, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+	    String userInput = JOptionPane.showInputDialog("Do you want to play again?");
+
+	    if (userInput.equalsIgnoreCase("yes")) {
+	        snake.resetLocation();
+	        randomizeFoodLocation();
+	        timer.restart();
+	    } else {
+	        System.exit(0);
+	    }
 
 	}
 
@@ -169,6 +204,20 @@ public class SnakeGame implements ActionListener, KeyListener {
 		 * feed the snake and randomize the food location.
 		 */
 
-		panel.repaint();
+		snake.update();
+
+	    if (snake.isHeadCollidingWithBody() || 
+	        snake.getHeadLocation().getX() < 0 || snake.getHeadLocation().getX() >= WIDTH ||
+	        snake.getHeadLocation().getY() < 0 || snake.getHeadLocation().getY() >= HEIGHT) {
+	    	
+	        gameOver();
+	    }
+
+	    if (snake.getHeadLocation().equals(foodLocation)) {
+	        snake.feed();
+	        randomizeFoodLocation();
+	    }
+
+	    panel.repaint();
 	}
 }

@@ -33,8 +33,8 @@ public class Snake {
 
 
 	public void update() {
-		    int nextX = head.x;
-		    int nextY = head.y;
+		    int nextX = head.getLocation().x;
+		    int nextY = head.getLocation().y;
 
 		    switch (currentDirection) {
 		        case UP:
@@ -106,11 +106,11 @@ public class Snake {
 	        case RIGHT:
 	            return direction != Direction.LEFT;
 	        default:
-	            return true; // Default to true for safety, in case of new directions in the future.
+	            return true; 
 	    }
 	}
 
-
+	public void resetLocation() {
 		// Clear the snake.
 
 		/*
@@ -125,10 +125,6 @@ public class Snake {
 		 */
 
 		// Add the head to the snake.
-
-	
-
-	public void resetLocation() {
 	    snake.clear();
 	    
 	    Location newLocation = new Location(SnakeGame.WIDTH / 2, SnakeGame.HEIGHT / 2);
@@ -142,6 +138,13 @@ public class Snake {
 		 * Complete the method so it returns true if the head is located in the same
 		 * location as any other body segment.
 		 */
+		for (int i = snake.size() - 1; i > 0; i--) {
+	        SnakeSegment current = snake.get(i);
+	        SnakeSegment previous = snake.get(i - 1);
+	        if(current.getLocation().x == previous.getLocation().x && current.getLocation().y == previous.getLocation().y) {
+	        	return true;
+	        }
+	    }
 
 		return false;
 	}
@@ -152,7 +155,12 @@ public class Snake {
 		 * Complete the method so it returns true if the passed in location is located
 		 * on the snake.
 		 */
-
+		
+		for (SnakeSegment segment : snake) {
+	        if (segment.getLocation().equals(loc)) {
+	            return true;
+	        }
+	    }
 		return false;
 	}
 
